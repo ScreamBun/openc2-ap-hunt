@@ -251,7 +251,7 @@
     ]],  
     ["software", "Record", [], "The Software Object represents high-level properties associated with software, including software products.", [
       [1, "type", "String", ["%^software$"], ""],
-      [2, "id", "String", [], "%^software--"],
+      [2, "id", "String", ["%^software--"], ""],
       [3, "name", "String", ["{1"], "Specifies the name of the software."],
       [4, "cpe", "String", ["%cpe:2\\\\.3:[aho\\\\*\\\\-](:(((\\\\?*|\\\\*?)([a-zA-Z0-9\\\\-\\\\._]|(\\\\\\\\[\\\\\\\\\\\\*\\\\?!\\\"#$$%&'\\\\(\\\\)\\\\+,/:;<=>@\\\\[\\\\]\\\\^`\\\\{\\\\|}~]))+(\\\\?*|\\\\*?))|[\\\\*\\\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[\\\\*\\\\-]))(:(((\\\\?*|\\\\*?)([a-zA-Z0-9\\\\-\\\\._]|(\\\\\\\\[\\\\\\\\\\\\*\\\\?!\\\"#$$%&'\\\\(\\\\)\\\\+,/:;<=>@\\\\[\\\\]\\\\^`\\\\{\\\\|}~]))+(\\\\?*|\\\\*?))|[\\\\*\\\\-])){4}", "[0"], "Specifies the Common Platform Enumeration (CPE) entry for the software, if available. The value for this property MUST be a CPE v2.3 entry from the official NVD CPE Dictionary."],
       [5, "swid", "String", ["{0"], "Specifies the Software Identification (SWID) Tags entry for the software, if available."],

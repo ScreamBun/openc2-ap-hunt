@@ -575,8 +575,8 @@
         },
         "id": {
           "type": "string",
-          "description": "%^software--",
-          "maxLength": 5555
+          "maxLength": 5555,
+          "pattern": "%^software--"
         },
         "name": {
           "type": "string",

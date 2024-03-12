@@ -294,7 +294,8 @@
 | ID | Name                    | Type                | # | Description                                                                                                                                                                      |
 |---:|:------------------------|:--------------------|--:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |  1 | **type**                | Software$Type       | 1 |                                                                                                                                                                                  |
-|  2 | **id**                  | String              | 1 | %^software--                                                                                                                                                                     |
+|  2 | **id**                  | Software_ID$Type              | 1 | 
+                                                                                                        |
 |  3 | **name**                | Software$Name       | 1 | Specifies the name of the software.                                                                                                                                              |
 |  4 | **cpe**                 | Software$Cpe        | 1 | Specifies the Common Platform Enumeration (CPE) entry for the software, if available. The value for this property MUST be a CPE v2.3 entry from the official NVD CPE Dictionary. |
 |  5 | **swid**                | Software$Swid       | 1 | Specifies the Software Identification (SWID) Tags entry for the software, if available.                                                                                          |
@@ -1056,6 +1057,10 @@
 | Type Name         | Type Definition       | Description |
 |:------------------|:----------------------|:------------|
 | **Software$Type** | String (%^software$%) |             |
+
+| Type Name            | Type Definition        | Description |
+|:---------------------|:-----------------------|:------------|
+| **Software_ID$Type** | String (%^software--%) |             |
 
 
 | Type Name         | Type Definition | Description                         |

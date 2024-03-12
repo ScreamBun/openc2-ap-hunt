@@ -1,80 +1,28 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://praxiseng.com/threat-hunter-9001",
+  "$id": "http://docs.oasis-open.org/openc2/ns/ap-th/v1.0",
   "title": "Threat Hunting Profile",
   "version": "0-wd01",
   "description": "Data definitions for Threat Hunting (TH) functions",
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "openc2_command": {
-      "$ref": "#/definitions/OpenC2-Command"
+    "th_target": {
+      "$ref": "#/definitions/TH-Target"
     },
-    "openc2_response": {
-      "$ref": "#/definitions/OpenC2-Response"
+    "th_args": {
+      "$ref": "#/definitions/TH-Args"
     },
-    "sco": {
-      "$ref": "#/definitions/SCO"
+    "th_specifiers": {
+      "$ref": "#/definitions/TH-Specifiers"
+    },
+    "th_results": {
+      "$ref": "#/definitions/TH-Results"
     }
   },
   "definitions": {
-
-    "Action": {
-      "title": "Action",
-      "type": "string",
-      "enum": [
-        "query",
-        "investigate"
-      ]
-    },
-    "Target": {
-      "title": "Target",
-      "type": "string",
-      "enum": [
-        "features",
-        "th"
-      ]
-    },
-    "Args": {
-      "title": "Args",
-      "type": "string",
-      "enum": [
-        "start_time",
-        "stop_time",
-        "duration",
-        "response_requested",
-        "th"
-      ]
-    },
-    "Actuator": {
-      "title": "Actuator",
-      "type": "string",
-      "enum": [
-        "th"
-      ]
-    },
-    "Results": {
-      "title": "Results",
-      "type": "string",
-      "enum": [
-        "versions",
-        "profiles",
-        "pairs",
-        "rate_limit",
-        "args",
-        "th"
-      ]
-    },
-    "Pairs": {
-      "title": "Pairs",
-      "type": "string",
-      "enum": [
-        "query: features, /huntflows, /datasources",
-        "investigate: /hunt"
-      ]
-    },
-    "AP-Target": {
-      "title": "AP Target",
+    "TH-Target": {
+      "title": "TH Target",
       "type": "object",
       "description": "TH targets defined in this profile.",
       "additionalProperties": false,
@@ -96,8 +44,8 @@
         }
       }
     },
-    "AP-Args": {
-      "title": "AP Args",
+    "TH-Args": {
+      "title": "TH Args",
       "type": "object",
       "description": "TH command arguments defined in this profile.",
       "additionalProperties": false,
@@ -108,9 +56,154 @@
       "properties": {
         "huntargs": {
           "$ref": "#/definitions/Huntargs",
-          "description": "Arguments for use in conjunction with huntflow implementation."
+          "description": "Arguments for use in conjunction with hunt implementation."
         }
       }
+    },
+    "TH-Specifiers": {
+      "title": "TH Specifiers",
+      "type": "object",
+      "description": "TH actuator specifiers (may be empty).",
+      "additionalProperties": false,
+      "maxProperties": 555,
+      "properties": {}
+    },
+    "TH-Results": {
+      "title": "TH Results",
+      "type": "object",
+      "description": "TH results defined in this profile.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 555,
+      "properties": {
+        "huntflow_info": {
+          "$ref": "#/definitions/Huntflow-Array",
+          "description": "Structured data returned by Query: Huntflows."
+        },
+        "datasources": {
+          "$ref": "#/definitions/Datasource-Array",
+          "description": "Datasource names and info returned by Query Datasources."
+        },
+        "inv_returns": {
+          "$ref": "#/definitions/Inv-Returns",
+          "description": "STIX SCO object returns."
+        }
+      }
+    },
+    "Action": {
+      "title": "Action",
+      "type": "string",
+      "enum": [
+        "query",
+        "investigate"
+      ]
+    },
+    "Target": {
+      "title": "Target",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "features": {
+          "$ref": "#/imports/ls/Features",
+          "description": ""
+        },
+        "th": {
+          "$ref": "#/definitions/TH-Target",
+          "description": ""
+        }
+      }
+    },
+    "Args": {
+      "title": "Args",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_time",
+        "stop_time",
+        "duration",
+        "response_requested",
+        "th"
+      ],
+      "maxProperties": 555,
+      "properties": {
+        "start_time": {
+          "$ref": "#/imports/ls/Date-Time",
+          "description": ""
+        },
+        "stop_time": {
+          "$ref": "#/imports/ls/Date-Time",
+          "description": ""
+        },
+        "duration": {
+          "$ref": "#/imports/ls/Duration",
+          "description": ""
+        },
+        "response_requested": {
+          "$ref": "#/imports/ls/Response-Requested",
+          "description": ""
+        },
+        "th": {
+          "$ref": "#/definitions/TH-Args",
+          "description": ""
+        }
+      }
+    },
+    "Actuator": {
+      "title": "Actuator",
+      "type": "string",
+      "enum": [
+        "th"
+      ]
+    },
+    "Results": {
+      "title": "Results",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rate_limit",
+        "th"
+      ],
+      "maxProperties": 555,
+      "properties": {
+        "versions": {
+          "$ref": "#/imports/ls/Version",
+          "description": "List of OpenC2 language versions supported by this Actuator"
+        },
+        "profiles": {
+          "type": "array",
+          "description": "List of profiles supported by this Actuator",
+          "maxItems": 555,
+          "items": {
+            "$ref": "#/definitions/ls:Nsid"
+          }
+        },
+        "pairs": {
+          "type": "array",
+          "description": "List of targets applicable to each supported Action",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/Pairs",
+            "description": "List of targets applicable to each supported Action"
+          }
+        },
+        "rate_limit": {
+          "type": "number"
+        },
+        "th": {
+          "$ref": "#/definitions/TH-Results",
+          "description": ""
+        }
+      }
+    },
+    "Pairs": {
+      "title": "Pairs",
+      "type": "string",
+      "enum": [
+        "query: features, /huntflows, /datasources",
+        "investigate: /hunt"
+      ]
     },
     "Huntargs": {
       "title": "Huntargs",
@@ -145,13 +238,12 @@
           "description": "OC2 Language types supplied as huntargs."
         },
         "stix": {
-          "$ref": "#/definitions/STIX-Cybersecurity-Observables",
+          "$ref": "#/imports/sco/STIX-Cybersecurity-Observables",
           "description": "STIX arguments supplied as huntargs."
         },
         "stix_extensions": {
-          "type": "string",
-          "description": "OCA Extended STIX arguments supplied as huntargs. add a custom stix for oca-asset and event",
-          "maxLength": 5555
+          "$ref": "#/imports/oca/OCA-Extensions",
+          "description": "STIX arguments extended with OCA extensions supplied as huntargs. TODO add a custom stix for oca-asset and event"
         },
         "timeranges": {
           "$ref": "#/definitions/Timeranges",
@@ -181,96 +273,86 @@
       "maxProperties": 555,
       "properties": {
         "artifact": {
-          "$ref": "#/definitions/Artifact",
+          "$ref": "#/imports/ls/Artifact",
           "description": "An array of bytes representing a file-like object or a link to that object."
         },
         "device": {
-          "$ref": "#/definitions/Device",
+          "$ref": "#/imports/ls/Device",
           "description": "The properties of a hardware device."
         },
         "domain_name": {
-          "$ref": "#/definitions/Domain-Name",
+          "$ref": "#/imports/ls/Domain-Name",
           "description": "A network domain name."
         },
         "email-address": {
-          "$ref": "#/definitions/Email-Addr",
+          "$ref": "#/imports/ls/Email-Addr",
           "description": "A single email address"
         },
         "file": {
-          "$ref": "#/definitions/File",
+          "$ref": "#/imports/ls/File",
           "description": "Properties of a file."
         },
         "hashes": {
-          "$ref": "#/definitions/Hashes",
+          "$ref": "#/imports/ls/Hashes",
           "description": "Not used as an entity; use inside File or other attribute of another type. May be used as a query value."
         },
         "hostname": {
-          "$ref": "#/definitions/Hostname",
+          "$ref": "#/imports/ls/Hostname",
           "description": "Value must be a hostname as defined in [RFC1034], Section 3.1"
         },
         "idn_domain_name": {
-          "$ref": "#/definitions/IDN-Domain-Name",
+          "$ref": "#/imports/ls/IDN-Domain-Name",
           "description": "An internationalized domain name."
         },
         "idn_email_address": {
-          "$ref": "#/definitions/IDN-Email-Addr",
+          "$ref": "#/imports/ls/IDN-Email-Addr",
           "description": "A single internationalized email address."
         },
         "ipv4_address": {
-          "$ref": "#/definitions/IPv4-Addr",
+          "$ref": "#/imports/ls/IPv4-Addr",
           "description": "IPv4 address as defined in [RFC0791]."
         },
         "ipv6_address": {
-          "$ref": "#/definitions/IPv6-Addr",
+          "$ref": "#/imports/ls/IPv6-Addr",
           "description": "IPv6 address as defined in [RFC8200]."
         },
         "ipv4_network": {
-          "$ref": "#/definitions/IPv4-Net",
+          "$ref": "#/imports/ls/IPv4-Net",
           "description": "IPv4 network targeted by hunt activity."
         },
         "ipv6_network": {
-          "$ref": "#/definitions/IPv6-Net",
+          "$ref": "#/imports/ls/IPv6-Net",
           "description": "IPv6 network targeted by hunt activity."
         },
         "ipv4_connection": {
-          "$ref": "#/definitions/IPv4-Connection",
+          "$ref": "#/imports/ls/IPv4-Connection",
           "description": "A 5-tuple of source and destination IPv4 address ranges, source and destination ports, and protocol."
         },
         "ipv6_connection": {
-          "$ref": "#/definitions/IPv6-Connection",
+          "$ref": "#/imports/ls/IPv6-Connection",
           "description": "A 5-tuple of source and destination IPv6 address ranges, source and destination ports, and protocol."
         },
         "iri": {
-          "$ref": "#/definitions/IRI",
+          "$ref": "#/imports/ls/IRI",
           "description": "An internationalized resource identifier (IRI)."
         },
         "mac_address": {
-          "$ref": "#/definitions/MAC-Addr",
+          "$ref": "#/imports/ls/MAC-Addr",
           "description": "A Media Access Control (MAC) address - EUI-48 or EUI-64 as defined in [EUI]."
         },
         "port": {
-          "$ref": "#/definitions/Port",
+          "$ref": "#/imports/ls/Port",
           "description": "Transport Protocol Port Number, [RFC6335]"
         },
         "process": {
-          "$ref": "#/definitions/Process",
+          "$ref": "#/imports/ls/Process",
           "description": "Common properties of an instance of a computer program as executed on an operating system."
         },
         "uri": {
-          "$ref": "#/definitions/URI",
+          "$ref": "#/imports/ls/URI",
           "description": "A uniform resource identifier (URI)."
         }
       }
-    },
-
-
-    "AP-Specifiers": {
-      "title": "AP Specifiers",
-      "type": "object",
-      "description": "TH actuator specifiers (may be empty).",
-      "additionalProperties": false,
-      "maxProperties": 555,
-      "properties": {}
     },
     "Huntflow-Specifiers": {
       "title": "Huntflow Specifiers",
@@ -324,30 +406,13 @@
         "$ref": "#/definitions/Arg-Name"
       }
     },
-    "AP-Results": {
-      "title": "AP Results",
-      "type": "object",
-      "description": "TH results defined in this profile.",
-      "additionalProperties": false,
-      "minProperties": 1,
-      "maxProperties": 555,
-      "properties": {
-        "huntflow_info": {
-          "type": "array",
-          "description": "Structured data returned by Query: Huntflows.",
-          "maxItems": 555,
-          "items": {
-            "$ref": "#/definitions/Huntflow-Info"
-          }
-        },
-        "datasources": {
-          "$ref": "#/definitions/Datasource-Array",
-          "description": "Datasource names and info returned by Query Datasources."
-        },
-        "inv_returns": {
-          "$ref": "#/definitions/Inv-Returns",
-          "description": "STIX SCO object returns"
-        }
+    "Huntflow-Array": {
+      "title": "Huntflow Array",
+      "type": "array",
+      "description": "Structured data returned by Query: Huntflows.",
+      "maxItems": 555,
+      "items": {
+        "$ref": "#/definitions/Huntflow-Info"
       }
     },
     "Inv-Returns": {
@@ -376,7 +441,7 @@
           }
         },
         "stix_sco": {
-          "$ref": "#/definitions/STIX-Cybersecurity-Observables",
+          "$ref": "#/imports/sco/STIX-Cybersecurity-Observables",
           "description": "STIX SCO object returns"
         }
       }
@@ -384,7 +449,7 @@
     "Timeranges": {
       "title": "Timeranges",
       "type": "array",
-      "description": "a timerange used in the execution of a hunt.",
+      "description": "timeranges used in the execution of a hunt.",
       "maxItems": 555,
       "items": {
         "$ref": "#/definitions/Timerange"
@@ -393,7 +458,7 @@
     "Timerange": {
       "title": "Timerange",
       "type": "object",
-      "description": "Identification of process to be targeted by Threat Hunting activity.",
+      "description": "a timerange used in the execution of a hunt.",
       "additionalProperties": false,
       "minProperties": 1,
       "maxProperties": 1,
@@ -603,88 +668,46 @@
       "description": "Argument names used by a Huntflow. Follow C variable naming conventions. Examples include name, src_port, and x_unique_id.",
       "maxLength": 5555
     },
-    "STIX-Cybersecurity-Observables": {
-      "title": "STIX Cybersecurity Observables",
-      "type": "array",
-      "description": "An Array of Cybersecurity Observables in STIX formatting",
-      "maxItems": 555,
-      "items": {
-        "$ref": "#/definitions/SCO"
-      }
-    },
-    "Hex": {
-      "title": "Hex",
-      "type": "string",
-      "maxLength": 5555,
-      "pattern": "^([a-fA-F0-9]{2})+$"
-    },
     "timestamp": {
       "title": "timestamp",
       "type": "string",
       "maxLength": 5555,
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  },
+  "imports": {
+    "ls": {
+      "Features": {},
+      "Date-Time": {},
+      "Duration": {},
+      "Response-Requested": {},
+      "Version": {},
+      "Artifact": {},
+      "Device": {},
+      "Domain-Name": {},
+      "Email-Addr": {},
+      "File": {},
+      "Hashes": {},
+      "Hostname": {},
+      "IDN-Domain-Name": {},
+      "IDN-Email-Addr": {},
+      "IPv4-Addr": {},
+      "IPv6-Addr": {},
+      "IPv4-Net": {},
+      "IPv6-Net": {},
+      "IPv4-Connection": {},
+      "IPv6-Connection": {},
+      "IRI": {},
+      "MAC-Addr": {},
+      "Port": {},
+      "Process": {},
+      "URI": {}
     },
-    "Features": {
-      "title": "Features",
-      "type": "array",
-      "description": "An array of zero to ten names used to query a Consume for its supported capabilities.",
-      "uniqueItems": true,
-      "maxItems": 10,
-      "items": {
-        "$ref": "#/definitions/Feature"
-      }
+    "oca": {
+      "OCA-Extensions": {}
     },
-    "Date-Time": {
-      "title": "Date Time",
-      "type": "integer",
-      "description": "Date and Time",
-      "minimum": 0
-    },
-    "Duration": {
-      "title": "Duration",
-      "type": "integer",
-      "description": "A length of time",
-      "minimum": 0
-    },
-    "Feature": {
-      "title": "Feature",
-      "type": "string",
-      "description": "Specifies the results to be returned from a query features Command",
-      "enum": [
-        "versions",
-        "profiles",
-        "pairs",
-        "rate_limit"
-      ]
-    },
-    "L4-Protocol": {
-      "title": "L4 Protocol",
-      "type": "string",
-      "description": "Value of the protocol (IPv4) or next header (IPv6) field in an IP packet. Any IANA value, [RFC5237]",
-      "enum": [
-        "icmp",
-        "tcp",
-        "udp",
-        "sctp"
-      ]
-    },
-    "Payload": {
-      "title": "Payload",
-      "type": "object",
-      "additionalProperties": false,
-      "minProperties": 1,
-      "maxProperties": 1,
-      "properties": {
-        "bin": {
-          "type": "string",
-          "description": "Specifies the data contained in the artifact",
-          "contentEncoding": "base64url"
-        },
-        "url": {
-          "$ref": "#/definitions/URI",
-          "description": "MUST be a valid URL that resolves to the un-encoded content"
-        }
-      }
+    "sco": {
+      "STIX-Cybersecurity-Observables": {}
     }
   }
 }

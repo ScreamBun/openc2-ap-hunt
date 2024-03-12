@@ -237,7 +237,7 @@ process = Record                                                                
 
 software = Record                                                                                                                                                                                                                                                                                        // The Software Object represents high-level properties associated with software, including software products.
     1  type                 Software$Type
-    2  id                   String                        // %^software--
+    2  id                   Software_ID$Type                 
     3  name                 Software$Name                 // Specifies the name of the software.
     4  cpe                  Software$Cpe                  // Specifies the Common Platform Enumeration (CPE) entry for the software, if available. The value for this property MUST be a CPE v2.3 entry from the official NVD CPE Dictionary.
     5  swid                 Software$Swid                 // Specifies the Software Identification (SWID) Tags entry for the software, if available.
@@ -687,6 +687,8 @@ Process$Creator-user-ref = ArrayOf(String){1..*}  // Specifies the user that cre
 Process$Child-refs = ArrayOf(String){1..*}  // Specifies the other processes that were spawned by (i.e. children of) this process, as a reference to one or more other Process Objects.
 
 Software$Type = String (%^software$%)
+
+Software_ID$Type = String (%^software--%)
 
 Software$Name = String{1..*}  // Specifies the name of the software.
 

@@ -487,7 +487,7 @@
 
   ["software", "Record", [], "The Software Object represents high-level properties associated with software, including software products.", [
     [1, "type", "String", ["%^software$"], ""],
-    [2, "id", "String", [], "%^software--"],
+    [2, "id", "String", ["%^software--"], ""],
     [3, "name", "String", ["{1"], "Specifies the name of the software."],
     [4, "cpe", "String", ["%cpe:2\\\\.3:[aho\\\\*\\\\-](:(((\\\\?*|\\\\*?)([a-zA-Z0-9\\\\-\\\\._]|(\\\\\\\\[\\\\\\\\\\\\*\\\\?!\\\"#$$%&'\\\\(\\\\)\\\\+,/:;<=>@\\\\[\\\\]\\\\^`\\\\{\\\\|}~]))+(\\\\?*|\\\\*?))|[\\\\*\\\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[\\\\*\\\\-]))(:(((\\\\?*|\\\\*?)([a-zA-Z0-9\\\\-\\\\._]|(\\\\\\\\[\\\\\\\\\\\\*\\\\?!\\\"#$$%&'\\\\(\\\\)\\\\+,/:;<=>@\\\\[\\\\]\\\\^`\\\\{\\\\|}~]))+(\\\\?*|\\\\*?))|[\\\\*\\\\-])){4}", "[0"], "Specifies the Common Platform Enumeration (CPE) entry for the software, if available. The value for this property MUST be a CPE v2.3 entry from the official NVD CPE Dictionary."],
     [5, "swid", "String", ["{0"], "Specifies the Software Identification (SWID) Tags entry for the software, if available."],
@@ -876,7 +876,6 @@
     [3, "pairs", "List of supported Actions and applicable Targets"],
     [4, "rate_limit", "Maximum number of Commands per minute supported by design or policy"]
   ]],
-
 
   ["L4-Protocol", "Enumerated", [], "Value of the protocol (IPv4) or next header (IPv6) field in an IP packet. Any IANA value, [RFC5237]", [
     [1, "icmp", "Internet Control Message Protocol - [RFC0792]"],
